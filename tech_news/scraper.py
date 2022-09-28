@@ -1,3 +1,4 @@
+from parsel import Selector
 import requests
 import time
 
@@ -7,9 +8,7 @@ def fetch(url):
     try:
         for _ in range(15):
             response = requests.get(
-                url,
-                timeout=3,
-                headers={"user-agent": "Fake user-agent"}
+                url, timeout=3, headers={"user-agent": "Fake user-agent"}
             )
             time.sleep(1)
         if response.status_code == 200:
@@ -22,7 +21,9 @@ def fetch(url):
 
 # Requisito 2
 def scrape_novidades(html_content):
-    """Seu código deve vir aqui"""
+    selector = Selector(text=html_content)
+    urls = selector.css("h2.entry-title a::attr(href)").getall()
+    return urls
 
 
 # Requisito 3
