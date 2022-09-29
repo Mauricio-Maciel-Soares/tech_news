@@ -29,7 +29,7 @@ def scrape_novidades(html_content):
 # Requisito 3
 def scrape_next_page_link(html_content):
     selector = Selector(text=html_content)
-    next_page_url = selector.css("a.next::attr(href)").get()
+    next_page_url = selector.css(".next::attr(href)").get()
     return next_page_url
 
 
