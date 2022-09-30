@@ -1,6 +1,7 @@
 from parsel import Selector
 import requests
 import time
+from tech_news.database import create_news
 
 
 # Requisito 1
@@ -38,7 +39,12 @@ def scrape_noticia(html_content):
     content = {}
     selector = Selector(text=html_content)
     content["url"] = selector.css("link[rel=canonical]::attr(href)").get()
-    content["title"] = selector.css("h1.entry-title::text").get().strip()
+    title = selector.css("h1.entry-title::text").get()
+    suffix = "\xa0\xa0\xa0"
+    if title.endswith(suffix):
+        content["title"] = title[:-len(suffix)]
+    else:
+        content["title"] = title
     content["timestamp"] = selector.css(".meta-date::text").get()
     content["writer"] = selector.css("a.url::text").get()
     content["comments_count"] = len(
@@ -55,4 +61,18 @@ def scrape_noticia(html_content):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    result_list = []
+    url = "https://blog.betrybe.com/"
+
+    while len(result_list) < amount:
+        html_content = fetch(url)
+        link_content = scrape_novidades(html_content)
+        result_list.extend(link_content)
+        result = [scrape_noticia(index) for index in result_list]
+        # next_page = scrape_next_page_link(url)
+    #     url = next_page
+    print(result)
+    
+    print(result_list)
+
+    create_news(data)
