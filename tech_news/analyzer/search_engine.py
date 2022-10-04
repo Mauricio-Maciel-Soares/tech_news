@@ -1,11 +1,14 @@
 from tech_news.database import search_news
 
 
+def news_list_result(news_list):
+    return [(index["title"], index["url"]) for index in news_list]
+
+
 # Requisito 6
 def search_by_title(title):
     news_list = search_news({"title": {"$regex": title, "$options": "i"}})
-    result = [(index["title"], index["url"]) for index in news_list]
-    print(result)
+    result = news_list_result(news_list)
     return result
 
 
@@ -16,9 +19,10 @@ def search_by_date(date):
 
 # Requisito 8
 def search_by_tag(tag):
-    news_list = search_news({"tag": {"$regex": tag, "$options": "i"}})
-    result = [(index["title"], index["url"]) for index in news_list]
-    print(result)
+    news_list = search_news(
+        {"tag": {"$elemMatch": {"$regex": tag, "$options": "i"}}}
+    )
+    result = news_list_result(news_list)
     return result
 
 

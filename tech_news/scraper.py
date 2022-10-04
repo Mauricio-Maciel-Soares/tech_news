@@ -42,7 +42,7 @@ def scrape_noticia(html_content):
     title = selector.css("h1.entry-title::text").get()
     suffix = "\xa0\xa0\xa0"
     if title.endswith(suffix):
-        content["title"] = title[:-len(suffix)]
+        content["title"] = title[: -len(suffix)]
     else:
         content["title"] = title
     content["timestamp"] = selector.css(".meta-date::text").get()
