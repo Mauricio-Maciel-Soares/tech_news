@@ -1,4 +1,5 @@
 from tech_news.database import search_news
+from datetime import datetime
 
 
 def news_list_result(news_list):
@@ -14,7 +15,12 @@ def search_by_title(title):
 
 # Requisito 7
 def search_by_date(date):
-    """Seu código deve vir aqui"""
+    find_date = datetime.fromisoformat(date).strftime("%d/%m/%Y")
+    news_list = search_news(
+        {"timestamp": {"$regex": find_date}}
+    )
+    result = news_list_result(news_list)
+    return result
 
 
 # Requisito 8
