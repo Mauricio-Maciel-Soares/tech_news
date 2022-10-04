@@ -20,7 +20,7 @@ def search_by_date(date):
 # Requisito 8
 def search_by_tag(tag):
     news_list = search_news(
-        {"tag": {"$elemMatch": {"$regex": tag, "$options": "i"}}}
+        {"tags": {"$elemMatch": {"$regex": tag, "$options": "i"}}}
     )
     result = news_list_result(news_list)
     return result
@@ -28,4 +28,8 @@ def search_by_tag(tag):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    news_list = search_news(
+        {"category": {"$regex": category, "$options": "i"}}
+    )
+    result = news_list_result(news_list)
+    return result
