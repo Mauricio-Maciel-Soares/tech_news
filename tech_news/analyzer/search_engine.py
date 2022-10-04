@@ -17,7 +17,7 @@ def search_by_date(date):
 # Requisito 8
 def search_by_tag(tag):
     news_list = search_news({"tag": {"$regex": tag, "$options": "i"}})
-    result = [(index["tag"], index["url"]) for index in news_list]
+    result = [(index["title"], index["url"]) for index in news_list]
     print(result)
     return result
 
