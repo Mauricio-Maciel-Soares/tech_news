@@ -15,12 +15,16 @@ def search_by_title(title):
 
 # Requisito 7
 def search_by_date(date):
-    find_date = datetime.fromisoformat(date).strftime("%d/%m/%Y")
-    news_list = search_news(
-        {"timestamp": {"$regex": find_date}}
-    )
-    result = news_list_result(news_list)
-    return result
+    try:
+        find_date = datetime.fromisoformat(date).strftime("%d/%m/%Y")
+        news_list = search_news(
+            {"timestamp": {"$regex": find_date}}
+        )
+        result = news_list_result(news_list)
+        return result
+
+    except ValueError:
+        raise ValueError("Data inválida")
 
 
 # Requisito 8
